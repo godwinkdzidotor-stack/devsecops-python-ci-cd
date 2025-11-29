@@ -28,6 +28,7 @@ jobs:
       - name: Syntax check
         run: python -m compileall .
 
+      # Make Bandit non-blocking
       - name: Run Bandit security scan
         run: bandit -r . -f txt -o bandit-report.txt --exit-zero
 
