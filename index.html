@@ -43,6 +43,51 @@
     }
     .inner{position:relative;z-index:1;padding:20px 22px 24px}
     @media (min-width:900px){.inner{padding:24px 28px 28px}}
+
+    /* Top nav buttons row */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: 12px;
+      color: #e2e8f0;
+      font-size: 13px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.25s ease-out;
+    }
+    .home-btn:hover {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
+    .close-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: 12px;
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.25s ease-out;
+    }
+    .close-btn:hover {
+      background: linear-gradient(135deg, #312e81, #4338ca);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+    }
+
     .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}
     .brand{display:flex;align-items:center;gap:12px}
     .avatar{
@@ -87,16 +132,16 @@
     }
     .badge-row{display:flex;flex-wrap:wrap;gap:6px}
 
-    /* ✅ Unified pill styling */
+    /* ✅ Unified pill styling for repo + card foot */
     .badge,
     .foot-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.9);
+      padding: 5px 9px;                 /* match .pill */
+      border-radius: 999px;
+      background: rgba(15,23,42,.95);
+      border: 1px solid rgba(148,163,184,.55);
       font-size: 11px;
       line-height: 1.2;
       color: var(--text-muted);
@@ -142,39 +187,21 @@
 
     a.link{color:#a855f7;text-decoration:none;font-size:12px}
     a.link:hover{text-decoration:underline}
-
-    /* 🔙 Back to Homepage button */
-    .home-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      border: 1px solid rgba(148,163,184,0.3);
-      border-radius: 12px;
-      color: #e2e8f0;
-      font-size: 13px;
-      text-decoration: none;
-      font-weight: 500;
-      margin-bottom: 20px;
-      transition: 0.25s ease-out;
-    }
-    .home-btn:hover {
-      background: linear-gradient(135deg, #1e293b, #334155);
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-    }
   </style>
 </head>
 <body>
   <main class="shell">
     <div class="inner">
 
-      <!-- 🔙 Back to homepage -->
-      <a href="https://godwinkdzidotor-stack.github.io/" class="home-btn">
-        ⭠ Back to Homepage
-      </a>
+      <!-- Top nav buttons: Back + Close -->
+      <div class="nav-buttons">
+        <a href="https://godwinkdzidotor-stack.github.io/" class="home-btn">
+          ⭠ Back to Homepage
+        </a>
+        <button class="close-btn" onclick="window.close();">
+          ✖ Close Page
+        </button>
+      </div>
 
       <header class="top">
         <div class="brand">
