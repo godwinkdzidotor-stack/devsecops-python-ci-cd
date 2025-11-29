@@ -1,6 +1,8 @@
 # DevSecOps Python CI/CD Pipeline
+<img width="468" height="355" alt="devsecops-ci" src="https://github.com/user-attachments/assets/51b47627-b293-4832-8e27-6a5b9ed0b0dd" />
 
 ![DevSecOps CI](https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd/actions/workflows/devsecops.yml/badge.svg)
+
 
 This repository demonstrates a simple **DevSecOps workflow** for Python security tools using:
 
@@ -8,6 +10,7 @@ This repository demonstrates a simple **DevSecOps workflow** for Python security
 - **Bandit static application security testing (SAST)**
 - **Docker containerization**
 - Automated artifact upload (Bandit report)
+
 
 The pipeline runs automatically on every push and pull request to the `main` branch.
 
