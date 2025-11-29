@@ -57,6 +57,49 @@ devsecops-python-ci-cd/
 ├── subnet_scan.py
 ├── requirements.txt
 ├── Dockerfile
+├── README.md
 └── .github/
-    └── workflows/
-        └── devsecops.yml
+└── workflows/
+└── devsecops.yml
+
+
+---
+
+## 🚀 CI/CD Pipeline Overview
+
+### ✔️ 1. Syntax Check
+Ensures Python files compile cleanly before running scans or building images.
+
+### ✔️ 2. Dependency Installation
+Installs required Python dependencies from `requirements.txt`.
+
+### ✔️ 3. Bandit SAST Scan
+Runs Bandit and exports:
+- A security report  
+- Uploaded as `bandit-report.txt` artifact  
+
+The scan uses `--exit-zero` so the pipeline continues even if vulnerabilities are detected.
+
+### ✔️ 4. Docker Image Build
+Builds a Docker image directly inside GitHub Actions.
+
+---
+
+## 🧪 Usage
+
+### Install dependencies locally
+
+```bash
+pip install -r requirements.txt
+
+
+Run firewall audit
+python firewall_audit.py rules.csv
+
+Run subnet scan
+python subnet_scan.py 192.168.1.0/24
+
+⚠️ Disclaimer
+
+These tools and the CI/CD workflow are intended for educational and lab use only.
+Do not use them on production networks without proper authorization.
