@@ -87,7 +87,7 @@
     }
     .badge-row{display:flex;flex-wrap:wrap;gap:6px}
 
-    /* ✅ FIXED PILL STYLING */
+    /* ✅ Unified pill styling */
     .badge,
     .foot-pill {
       display: inline-flex;
@@ -142,11 +142,40 @@
 
     a.link{color:#a855f7;text-decoration:none;font-size:12px}
     a.link:hover{text-decoration:underline}
+
+    /* 🔙 Back to Homepage button */
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: 12px;
+      color: #e2e8f0;
+      font-size: 13px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: 0.25s ease-out;
+    }
+    .home-btn:hover {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 <body>
   <main class="shell">
     <div class="inner">
+
+      <!-- 🔙 Back to homepage -->
+      <a href="https://godwinkdzidotor-stack.github.io/" class="home-btn">
+        ⭠ Back to Homepage
+      </a>
+
       <header class="top">
         <div class="brand">
           <div class="avatar">GD</div>
