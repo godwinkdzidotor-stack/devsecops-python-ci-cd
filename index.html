@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevSecOps Python CI/CD | Dr. Dzidotor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+        content="DevSecOps Python CI/CD pipeline with SAST, Docker builds, and GitHub Actions by Dr. Godwin K. Dzidotor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #7c3aed;
+      --accent-soft: rgba(124, 58, 237, 0.25);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1e293b;
+      --radius-xl: 26px;
+      --shadow-soft: 0 18px 48px rgba(15, 23, 42, 0.85);
+      --transition: 0.24s ease-out;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top,#020617 0,#020617 40%,#000 100%);
+      color:var(--text-main);min-height:100vh;display:flex;justify-content:center;
+      padding:24px 12px 40px;
+    }
+    .shell{
+      width:100%;max-width:1100px;background:linear-gradient(135deg,#020617 0,#020617 60%,#020617 100%);
+      border-radius:32px;border:1px solid rgba(148,163,184,.18);box-shadow:var(--shadow-soft);
+      overflow:hidden;position:relative;
+    }
+    .shell::before{
+      content:"";position:absolute;inset:-1px;border-radius:inherit;
+      background:
+        radial-gradient(circle at top left,rgba(124,58,237,.35),transparent 60%),
+        radial-gradient(circle at bottom right,rgba(34,197,94,.16),transparent 60%);
+      mix-blend-mode:screen;pointer-events:none;
+    }
+    .inner{position:relative;z-index:1;padding:20px 22px 24px}
+    @media (min-width:900px){.inner{padding:24px 28px 28px}}
+    .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .avatar{
+      width:40px;height:40px;border-radius:999px;
+      background:radial-gradient(circle at 30% 0,#a855f7,#020617);
+      border:1px solid rgba(192,132,252,.8);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:18px;color:#faf5ff;
+      box-shadow:0 12px 30px rgba(124,58,237,.6);
+    }
+    .brand-text h1{font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+    .brand-text span{font-size:12px;color:var(--text-muted)}
+    .chip{
+      padding:6px 11px;border-radius:999px;background:rgba(15,23,42,.9);
+      border:1px solid rgba(148,163,184,.6);font-size:11px;color:var(--text-muted);
+      display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+    }
+    .chip-dot{
+      width:7px;height:7px;border-radius:999px;background:#22c55e;
+      box-shadow:0 0 0 4px rgba(34,197,94,.25);
+    }
+    .hero{
+      border-radius:var(--radius-xl);
+      background:
+        radial-gradient(circle at top left,var(--accent-soft),transparent 65%),
+        radial-gradient(circle at bottom right,rgba(30,64,175,.85),#020617 75%);
+      border:1px solid rgba(148,163,184,.3);padding:18px;display:grid;
+      grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:20px;
+    }
+    @media(max-width:800px){.hero{grid-template-columns:1fr}}
+    .hero-main h2{font-size:22px;margin-bottom:6px}
+    .hero-main p{font-size:13px;color:var(--text-muted);max-width:470px}
+    .hero-badges{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+    .pill{
+      font-size:11px;padding:5px 9px;border-radius:999px;
+      background:rgba(15,23,42,.95);border:1px solid rgba(148,163,184,.55);
+    }
+    .hero-side{
+      background:rgba(15,23,42,.96);border-radius:18px;
+      border:1px solid rgba(55,65,81,.9);padding:10px 12px 12px;
+      font-size:12px;display:grid;gap:8px;
+    }
+    .badge-row{display:flex;flex-wrap:wrap;gap:6px}
+    .badge{
+      font-size:11px;padding:3px 8px;border-radius:999px;
+      background:rgba(15,23,42,.96);border:1px solid rgba(148,163,184,.9);color:var(--text-muted);
+    }
+    .tabs{margin-top:8px}
+    .tab-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .tab-btn{
+      padding:6px 10px;border-radius:999px;background:rgba(15,23,42,.95);
+      border:1px solid rgba(31,41,55,.9);color:var(--text-muted);font-size:12px;
+      display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all var(--transition);
+    }
+    .tab-btn span{font-size:15px}
+    .tab-btn.active{
+      background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:transparent;
+      color:#020617;box-shadow:0 10px 30px rgba(124,58,237,.55);transform:translateY(-1px);
+    }
+    .tab-panels{
+      border-radius:18px;border:1px solid var(--border-subtle);
+      background:radial-gradient(circle at top left,rgba(15,23,42,.98),#020617 70%);
+      padding:14px 14px 16px;
+    }
+    .tab-panel{display:none;font-size:13px;color:var(--text-muted)}
+    .tab-panel.active{display:block}
+    .grid{display:grid;gap:12px}
+    @media(min-width:760px){.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .card{
+      border-radius:16px;background:rgba(15,23,42,.98);
+      border:1px solid rgba(55,65,81,.95);padding:10px 12px 12px;
+      box-shadow:0 12px 32px rgba(15,23,42,.85);
+    }
+    .card-header{
+      display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px;
+    }
+    .card-title{font-size:13px;font-weight:600}
+    .card-tag{
+      font-size:11px;padding:3px 8px;border-radius:999px;
+      background:rgba(24,24,27,.96);border:1px solid rgba(148,163,184,.9);
+    }
+    .card-body ul{margin-top:6px;padding-left:16px;display:grid;gap:4px}
+    .card-foot{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;font-size:11px}
+    .foot-pill{
+      padding:3px 8px;border-radius:999px;
+      background:rgba(15,23,42,.96);border:1px solid rgba(55,65,81,.95);color:var(--text-muted);
+    }
+    a.link{color:#a855f7;text-decoration:none;font-size:12px}
+    a.link:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="inner">
+      <header class="top">
+        <div class="brand">
+          <div class="avatar">GD</div>
+          <div class="brand-text">
+            <h1>Dr. Godwin K. Dzidotor</h1>
+            <span>Cybersecurity · DevSecOps · Cloud Security</span>
+          </div>
+        </div>
+        <div class="chip">
+          <span class="chip-dot"></span>
+          DevSecOps Python CI/CD · Live Pipeline
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-main">
+          <h2>DevSecOps Python CI/CD Pipeline</h2>
+          <p>
+            A security-focused CI/CD pipeline that automatically validates Python
+            applications with syntax checks, Bandit SAST, and Docker image builds
+            on every push to GitHub.
+          </p>
+          <div class="hero-badges">
+            <span class="pill">GitHub Actions</span>
+            <span class="pill">Bandit SAST</span>
+            <span class="pill">Docker Build</span>
+            <span class="pill">Security Gate in CI</span>
+          </div>
+        </div>
+        <aside class="hero-side">
+          <div>
+            <strong>Repository</strong><br />
+            <a class="link" href="https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd" target="_blank">
+              github.com/godwinkdzidotor-stack/devsecops-python-ci-cd
+            </a>
+          </div>
+          <div class="badge-row">
+            <span class="badge">Python</span>
+            <span class="badge">GitHub Actions</span>
+            <span class="badge">Secure SDLC</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="tabs">
+        <nav class="tab-nav">
+          <button class="tab-btn active" data-tab="pipeline">
+            <span>⚙️</span> Pipeline Stages
+          </button>
+          <button class="tab-btn" data-tab="security">
+            <span>🛡️</span> Security Controls
+          </button>
+          <button class="tab-btn" data-tab="usage">
+            <span>📦</span> How to Reuse
+          </button>
+        </nav>
+
+        <div class="tab-panels">
+          <article id="pipeline" class="tab-panel active">
+            <div class="grid cols-2">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Stage 1 – Syntax & Basic Tests</div>
+                  <div class="card-tag">Quality Gate</div>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>Runs <code>python -m py_compile</code> to catch syntax errors.</li>
+                    <li>Easy to plug in pytest or unittest for deeper checks.</li>
+                    <li>Prevents broken code from reaching later security stages.</li>
+                  </ul>
+                </div>
+                <div class="card-foot">
+                  <span class="foot-pill">Python</span>
+                  <span class="foot-pill">Static Checks</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Stage 2 – Bandit SAST Scan</div>
+                  <div class="card-tag">Security Gate</div>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>Runs Bandit recursively against the repository.</li>
+                    <li>Flags insecure APIs, weak crypto, hard-coded secrets.</li>
+                    <li>Publishes an HTML report as an artifact.</li>
+                  </ul>
+                </div>
+                <div class="card-foot">
+                  <span class="foot-pill">Bandit</span>
+                  <span class="foot-pill">SAST</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Stage 3 – Docker Build</div>
+                  <div class="card-tag">Containerization</div>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>Builds a Docker image from the application code.</li>
+                    <li>Validates that the app can run in a container.</li>
+                    <li>Sets the stage for registry pushes and deployment.</li>
+                  </ul>
+                </div>
+                <div class="card-foot">
+                  <span class="foot-pill">Docker</span>
+                  <span class="foot-pill">Immutable Artifacts</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article id="security" class="tab-panel">
+            <div class="grid cols-2">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Security Posture</div>
+                  <div class="card-tag">DevSecOps</div>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>Security checks run on every push and pull request.</li>
+                    <li>Build can be configured to fail on high-risk Bandit findings.</li>
+                    <li>Pipeline logs and artifacts become evidence of security testing.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Extensibility</div>
+                  <div class="card-tag">Future Growth</div>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>Add dependency scanning (e.g., <code>pip-audit</code> or <code>safety</code>).</li>
+                    <li>Integrate container scanning (Trivy, etc.).</li>
+                    <li>Attach deploy stages to staging or production environments.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article id="usage" class="tab-panel">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">How to Reuse This Workflow</div>
+                <div class="card-tag">Getting Started</div>
+              </div>
+              <div class="card-body">
+                <ol style="margin-left:16px;display:grid;gap:4px;">
+                  <li>Fork or clone the repository on GitHub.</li>
+                  <li>Review the workflow under <code>.github/workflows/devsecops.yml</code>.</li>
+                  <li>Adjust project name, Python version, and Bandit settings as needed.</li>
+                  <li>Push code or open a PR to trigger the pipeline.</li>
+                  <li>Inspect job logs and the Bandit HTML report under the Actions tab.</li>
+                </ol>
+                <p style="margin-top:8px;">
+                  Full source:
+                  <a class="link" href="https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd" target="_blank">
+                    github.com/godwinkdzidotor-stack/devsecops-python-ci-cd
+                  </a>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const buttons=document.querySelectorAll(".tab-btn");
+    const panels=document.querySelectorAll(".tab-panel");
+    buttons.forEach(b=>{
+      b.addEventListener("click",()=>{
+        const id=b.getAttribute("data-tab");
+        buttons.forEach(x=>x.classList.remove("active"));
+        panels.forEach(p=>p.classList.remove("active"));
+        b.classList.add("active");
+        document.getElementById(id).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
