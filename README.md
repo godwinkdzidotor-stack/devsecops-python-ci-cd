@@ -1,51 +1,42 @@
 # DevSecOps Python CI/CD Pipeline
 
+![DevSecOps CI](https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd/actions/workflows/devsecops.yml/badge.svg)
+
 This repository demonstrates a simple **DevSecOps workflow** for Python security tools using:
 
-- GitHub Actions CI/CD
-- Bandit static application security testing (SAST)
-- Docker containerization
+- **GitHub Actions CI/CD**
+- **Bandit static application security testing (SAST)**
+- **Docker containerization**
+- Automated artifact upload (Bandit report)
 
-The pipeline runs on every push and pull request to the `main` branch.
-
-![CI](https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd/actions/workflows/devsecops.yml/badge.svg)
+The pipeline runs automatically on every push and pull request to the `main` branch.
 
 ---
 
 ## 🔧 Tools Included
 
-### 1. `firewall_audit.py`
-
+### `firewall_audit.py`
 Reads a CSV of firewall rules and flags overly-permissive entries.
 
-Expected columns:
-
-- `name`
-- `src`
-- `dst`
-- `service`
-- `action`
-
-Findings:
+Findings include:
 
 - `src = any`
 - `dst = any`
-- `0.0.0.0/0` in source or destination
-- `allow` action with overly broad src/dst
+- `0.0.0.0/0` inbound rules
+- Any overly broad `allow` rule
 
 Useful for quick firewall audits and security assessments.
 
 ---
 
-### 2. `subnet_scan.py`
-
-Simple ICMP reachability scanner for a subnet:
+### `subnet_scan.py`
+Simple ICMP reachability scanner for a subnet (CIDR-based):
 
 - Walks all hosts in a CIDR
 - Sends one ping per host
 - Reports reachable hosts
 
-Great for learning network automation and basic troubleshooting.
+Great for learning, troubleshooting, and basic automation.
 
 ---
 
@@ -59,47 +50,61 @@ devsecops-python-ci-cd/
 ├── Dockerfile
 ├── README.md
 └── .github/
-└── workflows/
-└── devsecops.yml
+    └── workflows/
+        └── devsecops.yml
+```
 
 
----
+🚀 CI/CD Pipeline Overview
 
-## 🚀 CI/CD Pipeline Overview
+The GitHub Actions workflow at .github/workflows/devsecops.yml runs the following stages:
 
-### ✔️ 1. Syntax Check
-Ensures Python files compile cleanly before running scans or building images.
+1️⃣ Syntax Check
 
-### ✔️ 2. Dependency Installation
-Installs required Python dependencies from `requirements.txt`.
+Uses python -m py_compile to detect syntax errors early
 
-### ✔️ 3. Bandit SAST Scan
-Runs Bandit and exports:
-- A security report  
-- Uploaded as `bandit-report.txt` artifact  
+Fails immediately when invalid Python code is detected
 
-The scan uses `--exit-zero` so the pipeline continues even if vulnerabilities are detected.
+2️⃣ Dependency Installation
 
-### ✔️ 4. Docker Image Build
-Builds a Docker image directly inside GitHub Actions.
+Installs all Python packages from requirements.txt
 
----
+Ensures Bandit and supporting tools are present during CI
 
-## 🧪 Usage
+3️⃣ Bandit SAST Security Scan
 
-### Install dependencies locally
+Runs Bandit recursively across the repository:
 
-```bash
+bandit -r . -f txt -o bandit-report.txt --exit-zero
+
+
+Produces:
+
+bandit-report.txt as an artifact
+
+Uses --exit-zero so CI always succeeds (ideal for learning and portfolio use)
+
+4️⃣ Docker Image Build
+
+Builds a container image using the included Dockerfile
+
+Ensures the project is fully containerized and build-ready
+
+📦 Local Usage
+1. Install dependencies
 pip install -r requirements.txt
 
-
-Run firewall audit
+2. Run firewall audit
 python firewall_audit.py rules.csv
 
-Run subnet scan
+
+Where rules.csv contains the columns:
+name, src, dst, service, action.
+
+3. Run subnet scan
 python subnet_scan.py 192.168.1.0/24
 
 ⚠️ Disclaimer
 
 These tools and the CI/CD workflow are intended for educational and lab use only.
-Do not use them on production networks without proper authorization.
+Do not use them on production networks or systems without explicit authorization.
