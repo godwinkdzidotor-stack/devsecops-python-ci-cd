@@ -106,6 +106,58 @@ name, src, dst, service, action.
 
 3. Run subnet scan
 python subnet_scan.py 192.168.1.0/24
+---
+
+## 📸 CI/CD Pipeline Screenshots
+
+### **1. Pipeline Summary**
+A full overview of the workflow run, showing successful job completion.
+
+<img src="images/pipeline-summary.png" width="800"/>
+
+---
+
+### **2. Workflow Summary**
+Shows all workflow runs and commit triggers.
+
+<img src="images/Workflows.png" width="800"/>
+
+---
+
+### **3. Syntax Check**
+Validates Python code using `py_compile` before any other steps run.
+
+<img src="images/Syntax-check.png" width="800"/>
+
+---
+
+### **4. Bandit Security Scan**
+Static Application Security Testing (SAST) performed using Bandit.
+
+<img src="images/bandit-report.png" width="800"/>
+
+---
+
+### **5. Docker Build Logs**
+The project is fully containerized and successfully builds via CI.
+
+**Step 1/3**  
+<img src="images/docker-build_1of3.png" width="800"/>
+
+**Step 2/3**  
+<img src="images/docker-build_2of3.png" width="800"/>
+
+**Step 3/3**  
+<img src="images/docker-build_3of3.png" width="800"/>
+
+---
+
+### **6. Artifact Output**
+The Bandit report is exported as a downloadable CI artifact.
+
+<img src="images/Artifact.png" width="800"/>
+
+---
 
 ⚠️ Disclaimer
 
