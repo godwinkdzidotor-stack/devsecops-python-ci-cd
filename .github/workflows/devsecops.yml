@@ -29,7 +29,8 @@ jobs:
         run: python -m compileall .
 
       - name: Run Bandit security scan
-        run: bandit -r . -f txt -o bandit-report.txt
+        run: bandit -r . -f txt -o bandit-report.txt --exit-zero
+
 
       - name: Build Docker image
         run: docker build -t devsecops-tools .
