@@ -1,8 +1,10 @@
 # DevSecOps Python CI/CD Pipeline
+
+![DevSecOps CI/CD](https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd/actions/workflows/devsecops.yml/badge.svg)
+![Bandit SAST](https://img.shields.io/badge/Bandit-SAST%20scan-green?logo=python&logoColor=white)
+![Docker Build](https://img.shields.io/badge/Docker-builds%20clean-blue?logo=docker&logoColor=white)
+
 <img width="468" height="355" alt="devsecops-ci" src="https://github.com/user-attachments/assets/51b47627-b293-4832-8e27-6a5b9ed0b0dd" />
-
-![DevSecOps CI](https://github.com/godwinkdzidotor-stack/devsecops-python-ci-cd/actions/workflows/devsecops.yml/badge.svg)
-
 
 This repository demonstrates a simple **DevSecOps workflow** for Python security tools using:
 
